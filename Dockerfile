@@ -26,17 +26,13 @@ COPY build.sh /usr/bin/build.sh
 RUN chmod +x /usr/bin/build.sh
 
 # Install entrypoint
-COPY meteor.sh /usr/bin/meteor.sh
-RUN chmod +x /usr/bin/meteor.sh
-
-# Install entrypoint
 COPY entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 
 # Add known_hosts file
 COPY known_hosts .ssh/known_hosts
 
-RUN chown -R meteor:meteor .ssh /usr/bin/entrypoint.sh /usr/bin/meteor.sh /usr/bin/build.sh
+RUN chown -R meteor:meteor .ssh /usr/bin/entrypoint.sh /usr/bin/build.sh
 
 USER meteor
 

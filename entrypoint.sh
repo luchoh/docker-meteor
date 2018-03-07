@@ -108,7 +108,12 @@ fi
 # If we were given a BUNDLE_FILE, extract the bundle
 # from there.
 if [ -n "${BUNDLE_FILE}" ]; then
+   echo "Bundle file provided ${BUNDLE_FILE}. Will untar in ${APP_DIR}..."
    tar xf ${BUNDLE_FILE} -C ${APP_DIR}
+   echo "Extracting finished..."
+   ls -al ${APP_DIR}
+else
+   echo "No bundle file provided..."
 fi
 
 
