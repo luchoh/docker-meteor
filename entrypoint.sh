@@ -105,41 +105,15 @@ if [ -n "${REPO}" ]; then
    getrepo
 fi
 
-# See if we have a valid meteor source
-METEOR_DIR=$(find ${SRC_DIR} -type d -name .meteor -print |head -n1)
-if [ -e "${METEOR_DIR}" ]; then
-   echo "Meteor source found in ${METEOR_DIR}"
-   cd ${METEOR_DIR}/..
-
-   # Check Meteor version
-   echo "Checking Meteor version..."
-   RELEASE=$(cat .meteor/release | cut -f2 -d'@')
-   checkver $RELEASE
-
-   # Download Meteor installer
-   echo "Downloading Meteor install script..."
-   curl ${CURL_OPTS} -o /tmp/meteor.sh https://install.meteor.com?release=${RELEASE}
-
-   # Install Meteor tool
-   echo "Installing Meteor ${RELEASE}..."
-   sh /tmp/meteor.sh
-   rm /tmp/meteor.sh
-
-   if [ -f package.json ]; then
-      echo "Installing application-side NPM dependencies..."
-      meteor npm install --production
-   fi
-
-   # Bundle the Meteor app
-   echo "Building the bundle...(this may take a while)"
-   mkdir -p ${APP_DIR}
-   meteor build --directory ${APP_DIR}
-fi
-
 # If we were given a BUNDLE_FILE, extract the bundle
 # from there.
 if [ -n "${BUNDLE_FILE}" ]; then
+   echo "Bundle file provided ${BUNDLE_FILE}. Will untar in ${APP_DIR}..."
    tar xf ${BUNDLE_FILE} -C ${APP_DIR}
+   echo "Extracting finished..."
+   ls -al ${APP_DIR}
+else
+   echo "No bundle file provided..."
 fi
 
 
